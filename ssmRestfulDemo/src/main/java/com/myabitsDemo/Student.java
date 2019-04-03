@@ -28,6 +28,12 @@ public class Student {
 	public void setSal(Double sal) {
 		this.sal = sal;
 	}
+	public Student(Integer id, String name, Double sal) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.sal = sal;
+	}
 	
 
 }

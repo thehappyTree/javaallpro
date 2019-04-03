@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace属性是名称空间，必须唯一 -->
-<mapper namespace="com.myabitsDemo.Student">    
+<mapper namespace="com.myabitsDemo.StudentDao">    
     
     <!-- resultMap标签:映射实体与表 
          type属性：表示实体全路径名
@@ -19,5 +19,25 @@
         <result property="name" column="name"/>
         <result property="sal" column="sal"/>
     </resultMap>
+    
+    <insert id="add" parameterType="com.myabitsDemo.Student">
+        insert into students(id,
+        name,sal) values(#{id}, #{name},#{sal})
+    </insert>
+    
+    <select id="findById" parameterType="int" resultMap="studentMap">
+        SELECT * FROM STUDENTS WHERE id = #{id};
+    </select>
+    
+     <select id="findAll"  resultMap="studentMap">
+        SELECT * FROM STUDENTS;
+    </select>
+    
+        <!--根据id删除-->
+    <delete id="delete" parameterType="int">
+        DELETE FROM STUDENTS WHERE id=#{id};
+
+    </delete>
+
 
 </mapper>
