@@ -36,6 +36,57 @@
         <!--根据id删除-->
     <delete id="delete" parameterType="int">
         DELETE FROM STUDENTS WHERE id=#{id};
+    </delete>
+    
+    <update id="update" parameterType="com.myabitsDemo.Student">
+
+        update students set name=#{name},sal=#{sal} where id=#{id};
+
+    </update>
+    
+     <select id="pagination" parameterType="map" resultMap="studentMap">
+        SELECT * FROM STUDENTS limit #{start},#{end};
+    </select>
+    
+    <select id="findByCondition" resultMap="studentMap" parameterType="map">
+    	select * from students
+    	<where>
+    	<if test="name!=null">
+    		and name=#{name}
+    	</if>
+    	<if test="sal!=null">
+    		and sal<![CDATA[ < ]]>#{sal}
+    	</if>
+    	
+    	</where>
+    </select>
+    
+    <update id="updateByConditions" parameterType="com.myabitsDemo.Student">
+    	update students
+    	<set>
+    		<if test="name!=null">
+    			name=#{name},
+    		</if>
+    		<if test="sal!=null">
+    			sal=#{sal},
+    		</if>
+    	</set>
+    	where id=#{id}
+    </update>
+    
+      <delete id="deleteByConditions" parameterType="int">
+
+        <!-- foreach用于迭代数组元素
+             open表示开始符号
+             close表示结束符合
+             separator表示元素间的分隔符
+             item表示迭代的数组，属性值可以任意，但提倡与方法的数组名相同
+             #{ids}表示数组中的每个元素值
+         -->
+        delete from students where id in
+         <foreach collection="array" open="(" close=")" separator="," item="ids">
+             #{ids}
+         </foreach>
 
     </delete>
 

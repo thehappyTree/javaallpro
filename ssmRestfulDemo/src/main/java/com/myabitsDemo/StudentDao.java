@@ -1,6 +1,8 @@
 package com.myabitsDemo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -44,7 +46,7 @@ public class StudentDao {
     public List<Student> findAll() throws Exception{
     	SqlSession sqlSession = MybatisUtil.getSqlSession();
     	try {
-        return sqlSession.selectList("com.myabitsDemo.StudentDao.findAll");
+    		return sqlSession.selectList("com.myabitsDemo.StudentDao.findAll");
     	}catch(Exception e) {
     		 e.printStackTrace();
              sqlSession.rollback();
@@ -60,7 +62,9 @@ public class StudentDao {
     	
     	SqlSession sqlSession = MybatisUtil.getSqlSession();
     	try {
-        return sqlSession.delete("com.myabitsDemo.StudentDao.delete");
+        sqlSession.delete("com.myabitsDemo.StudentDao.delete",id);
+        sqlSession.commit();
+        return id;
     	}catch(Exception e) {
     		 e.printStackTrace();
              sqlSession.rollback();
@@ -72,6 +76,72 @@ public class StudentDao {
     	
     }
     
+    public void updateStudent(Student student) {
+        //得到连接对象
+        SqlSession sqlSession = MybatisUtil.getSqlSession();
+        try {
+        	sqlSession.update("com.myabitsDemo.StudentDao.update", student);
+        	sqlSession.commit();
+        	
+        }catch(Exception e) {
+        	
+        }finally {
+            MybatisUtil.closeSqlSession();
+
+        }
+    }
+    
+    public List<Student> pagination(int start, int end) throws Exception {
+    	
+    	SqlSession sqlSession = MybatisUtil.getSqlSession();
+    	try {
+    		Map<String,Object> map = new HashMap<String, Object>(); 
+    		map.put("start", start);
+    		map.put("end", end);
+    		return sqlSession.selectList("com.myabitsDemo.StudentDao.pagination",map);
+    	}catch(Exception e) {
+    		 e.printStackTrace();
+             sqlSession.rollback();
+             throw e;
+    	}finally {
+            MybatisUtil.closeSqlSession();
+    	}
+    }
+    
+    public List<Student> findByCondition(String name, Double sal) throws Exception{
+    	SqlSession sqlSession = MybatisUtil.getSqlSession();
+    	try {
+    		Map<String, Object> map = new HashMap<String,Object>();
+    		map.put("name", name);
+    		map.put("sal", sal);
+    		return sqlSession.selectList("com.myabitsDemo.StudentDao.findByCondition", map);
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+            sqlSession.rollback();
+            throw e;
+    	}finally {
+    		MybatisUtil.closeSqlSession();
+    	}
+    	
+    }
+    
+    public void updateByConditions(Student student) throws Exception {
+    	SqlSession sqlSession = MybatisUtil.getSqlSession();
+    	try {
+    		
+    		sqlSession.update("com.myabitsDemo.StudentDao.updateByConditions", student);
+    		sqlSession.commit();
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+            sqlSession.rollback();
+            throw e;
+    	}finally {
+    		MybatisUtil.closeSqlSession();
+    	}
+    	
+    }
     
     
 
