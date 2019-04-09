@@ -143,6 +143,22 @@ public class StudentDao {
     	
     }
     
+    public void deleteByConditions(int... ids) throws Exception {
+     	SqlSession sqlSession = MybatisUtil.getSqlSession();
+    	try {
+    		
+    		sqlSession.update("com.myabitsDemo.StudentDao.deleteByConditions", ids);
+    		sqlSession.commit();
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+            sqlSession.rollback();
+            throw e;
+    	}finally {
+    		MybatisUtil.closeSqlSession();
+    	}
+    }
+    
     
 
 }

@@ -89,6 +89,54 @@
          </foreach>
 
     </delete>
+    
+    
+    <!--SQL片段默认是不帮我们自动生成合适的SQL，因此需要我们自己手动除去逗号-->
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                id,
+            </if>
+
+            <if test="name!=null">
+                name,
+            </if>
+
+            <if test="sal!=null">
+                sal,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+
+            <if test="name!=null">
+                #{name},
+            </if>
+
+            <if test="sal!=null">
+                #{sal},
+            </if>
+        </trim>
+    </sql>
+    <!--动态插入-->
+    <insert id="insertByConditions" parameterType="zhongfucheng.Student">
+    
+        insert into students (<include refid="key"/>) values
+        (<include refid="value"/>)
+
+    </insert>
+    
+    
+    <insert id="insertByConditions" parameterType="com.myabitsDemo.Student">
+    	insert into students(<include refid="key"/>) 
+    	values(<include refid="value"/>)
+    
+    </insert>
 
 
 </mapper>

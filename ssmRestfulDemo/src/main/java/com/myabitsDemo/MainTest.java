@@ -13,7 +13,7 @@ public class MainTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-        //StudentDao studentDao = new StudentDao();
+        StudentDao studentDao = new StudentDao();
         /*Student student1 = new Student(4,"zhangsan",19000D);
         Student student2 = new Student(5,"lisi",20000D);
         
@@ -47,7 +47,8 @@ public class MainTest {
         student.setName("yetingsb");
         student.setSal(900D);
         studentDao.updateByConditions(student);*/
-		test(1,2,3);
+		//test(1,2,3);
+		studentDao.deleteByConditions(3,4);
       
     }
 
